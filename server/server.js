@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
 
 })
 
-const UserModel = mongoose.model('users', UserSchema)
+const UserModel = mongoose.model('users', UserSchema);
 
 mongoose.connect(process.env.URI_MONGODB)
 
@@ -31,4 +31,25 @@ app.get('/users', async (reg, res) => {
 })
 app.listen(port, () => {
    console.log(`server is running on port ${port}`)
-}) 
+})
+
+req1.addEventListener('click', async () => {
+   try {
+      const users = await getData('http://localhost:3002/getUsers')
+      users.forEach(user => {
+         container.insertAdjacentHTML(
+            `beforeend`,
+            `<div class="post">
+            <p class="name">${user.name}</p>
+            <p class="email" > ${user.email}</p >
+            <p class="password" > ${user.password}</p >
+   </ div>
+   `)
+      })
+
+      console.log(users)
+   } catch (err) {
+
+      console.error('Ошибка при получении пользователей', err)
+   }
+})
